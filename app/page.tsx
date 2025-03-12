@@ -3,8 +3,8 @@ import React from "react";
 import Particles from "./components/particles";
 
 const navigation = [
-  { name: "Projects", href: "/projects" },
-  { name: "Contact", href: "/contact" },
+  { name: "View My Work", href: "/projects" },
+  { name: "Hire Me", href: "/contact" },
 ];
 
 export default function Home() {
@@ -28,13 +28,19 @@ export default function Home() {
         className="absolute inset-0 -z-10 animate-fade-in"
         quantity={100}
       />
-      <h1 className="py-3.5 px-0.5 z-10 text-4xl text-transparent duration-1000 bg-white cursor-default text-edge-outline animate-title font-display sm:text-6xl md:text-9xl whitespace-nowrap bg-clip-text ">
+      <h2 className="py-3.5 px-0.5 z-10 text-2xl text-transparent duration-1000 bg-white cursor-default text-edge-outline animate-title font-display sm:text-3xl md:text-5xl whitespace-nowrap bg-clip-text ">Maaz Ekkiswala</h2>
+      <h3 className="py-3.5 px-0.5 z-10 text-1xl text-transparent duration-1000 bg-white cursor-default text-edge-outline animate-title font-display sm:text-2xl md:text-3xl whitespace-nowrap bg-clip-text ">Building Scalable, High-Performance Web Applications with Modern Tech!</h3>
+      {/* <h1 className="py-3.5 px-0.5 z-10 text-4xl text-transparent duration-1000 bg-white cursor-default text-edge-outline animate-title font-display sm:text-6xl md:text-9xl whitespace-nowrap bg-clip-text ">
         chronark
-      </h1>
+      </h1> */}
 
       <div className="hidden w-screen h-px animate-glow md:block animate-fade-right bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
       <div className="my-16 text-center animate-fade-in">
-        <h2 className="text-sm text-zinc-500 ">
+        <h2 className="text-md text-zinc-500 ">Tech Stack:
+          Python | Django | Flask | FastAPI | React | Next.js | PostgreSQL | MongoDB | AWS | Docker | GitHub | MySQL | Termius</h2>
+        <br/>
+        <h4 className="text-sm text-zinc-500 text-center">I’m a Full Stack Developer with 4+ years of experience in designing, developing, and optimizing web applications using Python (Django, Flask, FastAPI) and modern JavaScript frameworks like React & Next.js. Passionate about building scalable, high-performance solutions that enhance user experience and efficiency.</h4>
+        {/* <h2 className="text-sm text-zinc-500 ">
           I'm building{" "}
           <Link
             target="_blank"
@@ -43,7 +49,7 @@ export default function Home() {
           >
             unkey.dev
           </Link> to solve API authentication and authorization for developers.
-        </h2>
+        </h2> */}
       </div>
     </div>
   );

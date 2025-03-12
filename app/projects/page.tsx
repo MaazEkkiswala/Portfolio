@@ -4,25 +4,23 @@ import { allProjects } from "contentlayer/generated";
 import { Navigation } from "../components/nav";
 import { Card } from "../components/card";
 import { Article } from "./article";
-import { Redis } from "@upstash/redis";
 import { Eye } from "lucide-react";
 
-const redis = Redis.fromEnv();
-
 export const revalidate = 60;
+
 export default async function ProjectsPage() {
-  const views = (
-    await redis.mget<number[]>(
-      ...allProjects.map((p) => ["pageviews", "projects", p.slug].join(":")),
-    )
-  ).reduce((acc, v, i) => {
-    acc[allProjects[i].slug] = v ?? 0;
+  // Initialize views with default values (without Redis)
+  const views: Record<string, number> = allProjects.reduce((acc, project) => {
+    if (project && project.slug) {
+      acc[project?.slug] = 0; // Default views to 0
+    }
     return acc;
   }, {} as Record<string, number>);
 
   const featured = allProjects.find((project) => project.slug === "unkey")!;
-  const top2 = allProjects.find((project) => project.slug === "planetfall")!;
-  const top3 = allProjects.find((project) => project.slug === "highstorm")!;
+  const top2 = allProjects.find((project) => project.slug === "red-strength")!;
+  const top3 = allProjects.find((project) => project.slug === "find-tables")!;
+  
   const sorted = allProjects
     .filter((p) => p.published)
     .filter(
@@ -93,10 +91,10 @@ export default async function ProjectsPage() {
             </Link>
           </Card>
 
-          <div className="flex flex-col w-full gap-8 mx-auto border-t border-gray-900/10 lg:mx-0 lg:border-t-0 ">
-            {[top2, top3].map((project) => (
-              <Card key={project.slug}>
-                <Article project={project} views={views[project.slug] ?? 0} />
+          <div className="flex flex-col w-full gap-8 mx-auto border-t border-gray-900/10 lg:mx-0 lg:border-t-0">
+            {[top2, top3].filter(Boolean).map((project) => (
+              <Card key={project!.slug}>
+                <Article project={project!} views={views[project!.slug] ?? 0} />
               </Card>
             ))}
           </div>
@@ -104,7 +102,20 @@ export default async function ProjectsPage() {
         <div className="hidden w-full h-px md:block bg-zinc-800" />
 
         <div className="grid grid-cols-1 gap-4 mx-auto lg:mx-0 md:grid-cols-3">
-          <div className="grid grid-cols-1 gap-4">
+        {Array.from({ length: 3 }).map((_, columnIndex) => (
+          <div key={columnIndex} className="grid grid-cols-1 gap-4">
+            {sorted
+              .filter((_, i) => i % 3 === columnIndex)
+              .map((project) =>
+                project ? (
+                  <Card key={project.slug}>
+                    <Article project={project} views={views[project.slug] ?? 0} />
+                  </Card>
+                ) : null
+              )}
+          </div>
+        ))}
+          {/* <div className="grid grid-cols-1 gap-4">
             {sorted
               .filter((_, i) => i % 3 === 0)
               .map((project) => (
@@ -130,7 +141,7 @@ export default async function ProjectsPage() {
                   <Article project={project} views={views[project.slug] ?? 0} />
                 </Card>
               ))}
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
